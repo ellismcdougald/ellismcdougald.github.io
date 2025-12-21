@@ -1,11 +1,64 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Header from '../components/Header.astro';
+import Nav from '../components/Nav.astro'
 ---
 
 <Layout>
-	<Welcome />
+  <Nav />
+  <main id="top" class="container">
+    <Header name="Ellis McDougald" subtitle="Software Engineer — Frontend & Fullstack" />
+
+    <section id="summary" class="section">
+      <h2>Summary</h2>
+      <div class="card">
+        Passionate software engineer with experience building web applications and developer tools. Interested in frontend architecture, performance, and clean UI.
+      </div>
+    </section>
+
+    <section id="education" class="section">
+      <h2>Education</h2>
+      <div class="card">
+        <strong>B.S. Computer Science</strong><div class="meta">University — 2016–2020</div>
+      </div>
+    </section>
+
+    <section id="experience" class="section">
+      <h2>Experience</h2>
+      <div class="card">
+        <strong>Senior Frontend Engineer</strong>
+        <div class="meta">Acme Corp — 2023–Present</div>
+        <p>Leading frontend development, building component libraries and improving performance across the product.</p>
+      </div>
+      <div class="card">
+        <strong>Frontend Engineer</strong>
+        <div class="meta">Startup Inc — 2020–2023</div>
+        <p>Built customer-facing features, improved accessibility, and shipped multiple cross-platform releases.</p>
+      </div>
+    </section>
+
+    <section id="projects" class="section">
+      <h2>Projects</h2>
+      <div class="project-list">
+        <div class="card">
+          <strong>Project Alpha</strong>
+          <div class="meta">React · Typescript · 2024</div>
+          <p>Personal project: small library for building accessible UI components.</p>
+        </div>
+        <div class="card">
+          <strong>Portfolio Website</strong>
+          <div class="meta">Astro · Tailwind · 2025</div>
+          <p>This one-pager resume site showcasing projects and experience.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <h2>Contact</h2>
+      <div class="card contact">
+        <div>Email: <a href="mailto:ellis@example.com">ellis@example.com</a></div>
+        <div>GitHub: <a href="https://github.com/ellismcdougald" target="_blank">ellismcdougald</a></div>
+      </div>
+    </section>
+  </main>
 </Layout>

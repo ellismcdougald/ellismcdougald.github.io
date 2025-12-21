@@ -2,62 +2,137 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Nav from '../components/Nav.astro'
+import { getEntry } from 'astro:content';
+
+const entry = await getEntry('site', 'site');
+const site = entry?.data ?? {};
+const featuredProjects = (site.projects || []).filter((p: any) => p.featured);
+const otherProjects = (site.projects || []).filter((p: any) => !p.featured);
 ---
 
 <Layout>
   <Nav />
   <main id="top" class="container">
-    <Header name="Ellis McDougald" subtitle="Software Engineer — Frontend & Fullstack" />
+    <Header name={site.name} subtitle={site.subtitle} />
 
     <section id="summary" class="section">
-      <h2>Summary</h2>
-      <div class="card">
-        Passionate software engineer with experience building web applications and developer tools. Interested in frontend architecture, performance, and clean UI.
-      </div>
+      <h2>About Me</h2>
+      <div class="card">{site.summary}</div>
     </section>
 
     <section id="education" class="section">
       <h2>Education</h2>
-      <div class="card">
-        <strong>B.S. Computer Science</strong><div class="meta">University — 2016–2020</div>
-      </div>
+      {Array.isArray(site.education) ? (
+        site.education.map((ed: any) => (
+          <div class="card">
+            <strong>{ed.degree}</strong>
+            <div class="meta">{ed.school} — {ed.years}</div>
+            {Array.isArray(ed.blurb) && (
+              <ul>
+                {ed.blurb.map((b: string) => (
+                  <li>{b}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        ))
+      ) : (
+        <div class="card">
+          <strong>{site.education?.degree}</strong>
+          <div class="meta">{site.education?.school} — {site.education?.years}</div>
+          {Array.isArray(site.education?.blurb) && (
+            <ul>
+              {site.education.blurb.map((b: string) => (
+                <li>{b}</li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
     </section>
 
     <section id="experience" class="section">
       <h2>Experience</h2>
-      <div class="card">
-        <strong>Senior Frontend Engineer</strong>
-        <div class="meta">Acme Corp — 2023–Present</div>
-        <p>Leading frontend development, building component libraries and improving performance across the product.</p>
-      </div>
-      <div class="card">
-        <strong>Frontend Engineer</strong>
-        <div class="meta">Startup Inc — 2020–2023</div>
-        <p>Built customer-facing features, improved accessibility, and shipped multiple cross-platform releases.</p>
-      </div>
+      {site.experience?.map((e: any) => (
+        <div class="card">
+          <strong>{e.role}</strong>
+          <div class="meta">{e.org} — {e.years}</div>
+          {Array.isArray(e.blurb) ? (
+            <ul>
+              {e.blurb.map((item: string) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          ) : (
+            <p>{e.blurb}</p>
+          )}
+        </div>
+      ))}
     </section>
 
     <section id="projects" class="section">
       <h2>Projects</h2>
-      <div class="project-list">
-        <div class="card">
-          <strong>Project Alpha</strong>
-          <div class="meta">React · Typescript · 2024</div>
-          <p>Personal project: small library for building accessible UI components.</p>
+      {featuredProjects?.length ? (
+        <div class="project-list featured-list">
+          {featuredProjects.map((p: any) => (
+            <div class="card">
+              <strong><span class="star">★</span>{p.name}</strong>
+              <div class="meta">{p.tech}</div>
+              {Array.isArray(p.desc) ? (
+                <ul>
+                  {p.desc.map((d: string) => (
+                    <li>{d}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p>{p.desc}</p>
+              )}
+            </div>
+          ))}
         </div>
-        <div class="card">
-          <strong>Portfolio Website</strong>
-          <div class="meta">Astro · Tailwind · 2025</div>
-          <p>This one-pager resume site showcasing projects and experience.</p>
-        </div>
-      </div>
+      ) : null}
+
+      {otherProjects?.length ? (
+        <>
+          <button id="toggle-projects" class="expand-btn">Show {otherProjects.length} more</button>
+          <div id="more-projects" class="project-list more-projects hidden">
+            {otherProjects.map((p: any) => (
+              <div class="card">
+                <strong>{p.name}</strong>
+                <div class="meta">{p.tech}</div>
+                {Array.isArray(p.desc) ? (
+                  <ul>
+                    {p.desc.map((d: string) => (
+                      <li>{d}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>{p.desc}</p>
+                )}
+              </div>
+            ))}
+          </div>
+        </>
+      ) : null}
     </section>
+    <script type="module">
+      document.addEventListener('DOMContentLoaded', () => {
+        const btn = document.getElementById('toggle-projects');
+        const more = document.getElementById('more-projects');
+        if (!btn || !more) return;
+        btn.addEventListener('click', () => {
+          const isHidden = more.classList.toggle('hidden');
+          btn.textContent = isHidden ? `Show ${more.querySelectorAll('.card').length} more` : 'Hide projects';
+        });
+      });
+    </script>
 
     <section id="contact" class="section">
       <h2>Contact</h2>
       <div class="card contact">
-        <div>Email: <a href="mailto:ellis@example.com">ellis@example.com</a></div>
-        <div>GitHub: <a href="https://github.com/ellismcdougald" target="_blank">ellismcdougald</a></div>
+        <div>Email: <a href={`mailto:${site.contact?.email}`}>{site.contact?.email}</a></div>
+        <div>GitHub: <a href={site.contact?.github} target="_blank">{site.contact?.github?.replace('https://github.com/', '')}</a></div>
+        <div>LinkedIn: <a href={site.contact?.linkedin} target="_blank">{site.contact?.linkedin?.replace('https://www.linkedin.com/in/', '')}</a></div>
       </div>
     </section>
   </main>

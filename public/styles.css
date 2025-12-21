@@ -68,6 +68,16 @@ body {
   border-radius: 8px;
   margin-bottom: 12px;
 }
+
+/* Tighter list spacing inside cards */
+.card ul {
+  margin: 8px 0 0 0;
+  padding-left: 1rem; /* reduce default browser indent */
+  list-style-position: outside;
+}
+.card li {
+  margin-bottom: 6px;
+}
 .meta {
   color: var(--muted);
   font-size: 13px;
@@ -79,7 +89,7 @@ body {
 }
 @media (min-width: 720px) {
   .project-list {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
   }
 }
 .contact {
@@ -87,13 +97,31 @@ body {
   gap: 12px;
   flex-wrap: wrap;
 }
+.star {
+  color: var(--accent);
+  margin-right: 8px;
+  font-size: 16px;
+}
+.expand-btn {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+.more-projects.hidden {
+  display: none;
+}
 a {
   color: var(--accent);
   text-decoration: none;
 }
 
 /* Navigation */
-.html, html {
+.html,
+html {
   scroll-behavior: smooth;
   scroll-padding-top: var(--nav-height);
 }

@@ -70,6 +70,29 @@ projects:
       - "Integrated the engine with the Universal Chess Interface to support player-vs-CPU and CPU-vs-CPU matches via a GUI."
       - "Implemented unit tests with Catch2 to verify board representation and move generation correctness."
       - "Profiled and optimized code to improve move generation speed and engine performance."
+  - name: "Major League Baseball Team ELO Standings"
+    github: "https://github.com/ellismcdougald/mlb-elo-rankings"
+    featured: false
+    tech: "C#, .NET, AWS, Terraform"
+    desc:
+      - "Created a simple webpage to display Elo rating standings for Major League Baseball teams for the 2024 season."
+      - "Combined an AngularJS frontend with a .NET backend to maintain and display Elo ratings throughout the season."
+      - "Used AWS Lambda functions to maintain an AWS DynamoDB database and Terraform to provision resources."
+  - name: "Canadian Hockey League Statistics Website"
+    github: "https://github.com/ellismcdougald/chl-stats-site"
+    featured: false
+    tech: "React, Next.js, Node.js, PostgreSQL"
+    desc:
+      - "Scraped player statistics from the Canadian Hockey League’s website using Node.js."
+      - "Built PostgreSQL database to store player statistics."
+      - "Developed a web application using Next.js to display queryable player statistics in table form."
+  - name: "Personal Website"
+    github: "https://github.com/ellismcdougald/ellismcdougald.github.io"
+    featured: false
+    tech: "Astro, HTML, CSS"
+    desc:
+      - "Created this static website using AstroJS to display my resume and additional information."
+
 contact:
   email: "ecmcdougald@gmail.com"
   github: "https://github.com/ellismcdougald"

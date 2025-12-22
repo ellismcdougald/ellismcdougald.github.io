@@ -4,6 +4,12 @@ on:
   push:
     branches: [main]
 
+# Ensure the workflow token has permissions to create and push the gh-pages branch
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -11,7 +17,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          persist-credentials: false
+          # keep credentials so actions can push back to this repo
+          persist-credentials: true
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4

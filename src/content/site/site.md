@@ -40,6 +40,8 @@ experience:
 projects:
   - name: "Edmonton Bike Map"
     featured: true
+    github: "github.com/ellismcdougald/edmonton-bike-map"
+    website: "https://www.edmontonbikemap.xyz/map"
     tech: "Svelte · Go · PostgreSQL"
     desc:
       - "Built a full-stack web application for bike route planning in Edmonton, featuring a Svelte frontend, Go backend, and PostgreSQL database."
@@ -54,11 +56,13 @@ projects:
       - "Implemented comprehensive end-to-end acceptance tests to verify user stories; set up a Docker-based development environment and a self-hosted GitHub Actions runner for continuous integration."
   - name: "Event Lottery App"
     featured: true
+    github: "https://github.com/CMPUT301F24dragon/lucky-dragons"
     tech: "Android · Java · Google Cloud Firestore"
     desc:
       - "Developed an Android application in a 6-person team for CMPUT 301, implementing lottery functionality for community events with waitlists and random selection of participants."
       - "Collaborated using Git, GitHub, and Agile practices (weekly sprints, sprint reviews) to implement and test user stories, proactively identifying and resolving issues to stay on schedule."
   - name: "Viking Chess Engine"
+    github: "https://github.com/ellismcdougald/viking-chess"
     featured: true
     tech: "C++"
     desc:

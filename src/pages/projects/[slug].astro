@@ -1,0 +1,47 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const entries = await (getCollection as any)('projects');
+  return entries.map((e: any) => ({ params: { slug: e.slug } }));
+}
+
+const { slug } = Astro.params;
+const entries = await (getCollection as any)('projects');
+const post = entries.find((e: any) => e.slug === slug);
+if (!post) {
+  throw new Error(`Project not found: ${slug}`);
+}
+const data = post.data;
+const rendered = await post.render();
+const Content = rendered.Content;
+const normalizeUrl = (u: string | null) => {
+  if (!u) return null;
+  return /^https?:\/\//i.test(u) ? u : `https://${u}`;
+};
+const github = normalizeUrl(data.github ?? null);
+const website = normalizeUrl(data.website ?? null);
+---
+
+<Layout>
+  <Nav />
+  <main class="container section">
+    <article class="card">
+      <h1>{data.title ?? data.name}</h1>
+      {data.tech ? <div class="meta">{data.tech}</div> : null}
+      {github ? (
+        <div class="meta"><a class="repo-link" href={github} target="_blank" rel="noopener noreferrer">View on GitHub</a></div>
+      ) : null}
+      {website ? (
+        <div class="meta"><a class="site-link" href={website} target="_blank" rel="noopener noreferrer">Visit website</a></div>
+      ) : null}
+      <div class="project-body">
+        <Content />
+      </div>
+      <div class="spacer" />
+      <a href="/" class="back-link">← Back</a>
+    </article>
+  </main>
+</Layout>

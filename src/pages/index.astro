@@ -2,12 +2,46 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Nav from '../components/Nav.astro'
-import { getEntry } from 'astro:content';
+import { getEntry, getCollection } from 'astro:content';
 
 const entry = await getEntry('site', 'site');
 const site = entry?.data ?? {};
-const featuredProjects = (site.projects || []).filter((p: any) => p.featured);
-const otherProjects = (site.projects || []).filter((p: any) => !p.featured);
+const projectsCollection = await getCollection('projects');
+const projectMap = new Map(projectsCollection.map((e: any) => [e.slug, e]));
+const slugify = (s: string) =>
+  String(s)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+
+const normalizeUrl = (u: string | null) => {
+  if (!u) return null;
+  return /^https?:\/\//i.test(u) ? u : `https://${u}`;
+};
+
+const featuredProjects = (site.projects || [])
+  .filter((p: any) => p.featured)
+  .map((p: any) => {
+    const postSlug = p.post ?? slugify(p.name);
+    const postEntry = projectMap.get(postSlug);
+    const githubRaw = p.github ?? postEntry?.data?.github ?? null;
+    const github = normalizeUrl(githubRaw);
+    const websiteRaw = p.website ?? postEntry?.data?.website ?? null;
+    const website = normalizeUrl(websiteRaw);
+    return { ...p, postSlug, hasPost: projectMap.has(postSlug), github, website };
+  });
+const otherProjects = (site.projects || [])
+  .filter((p: any) => !p.featured)
+  .map((p: any) => {
+    const postSlug = p.post ?? slugify(p.name);
+    const postEntry = projectMap.get(postSlug);
+    const githubRaw = p.github ?? postEntry?.data?.github ?? null;
+    const github = normalizeUrl(githubRaw);
+    const websiteRaw = p.website ?? postEntry?.data?.website ?? null;
+    const website = normalizeUrl(websiteRaw);
+    return { ...p, postSlug, hasPost: projectMap.has(postSlug), github, website };
+  });
+
 ---
 
 <Layout>
@@ -87,6 +121,19 @@ const otherProjects = (site.projects || []).filter((p: any) => !p.featured);
               ) : (
                 <p>{p.desc}</p>
               )}
+              <div class="card-footer-actions">
+                {p.github && (
+                  <a class="repo-link" href={p.github} target="_blank" rel="noopener noreferrer">GitHub</a>
+                )}
+                {p.github && (p.website || p.hasPost) && <span class="sep">·</span>}
+                {p.website && (
+                  <a class="site-link" href={p.website} target="_blank" rel="noopener noreferrer">Website</a>
+                )}
+                {(p.website && p.hasPost) && <span class="sep">·</span>}
+                {p.hasPost && (
+                  <a class="read-more" href={`/projects/${p.postSlug}`}>What I Learned</a>
+                )}
+              </div>
             </div>
           ))}
         </div>
@@ -109,6 +156,19 @@ const otherProjects = (site.projects || []).filter((p: any) => !p.featured);
                 ) : (
                   <p>{p.desc}</p>
                 )}
+                <div class="card-footer-actions">
+                    {p.github && (
+                      <a class="repo-link" href={p.github} target="_blank" rel="noopener noreferrer">GitHub</a>
+                    )}
+                    {p.github && (p.website || p.hasPost) && <span class="sep">·</span>}
+                    {p.website && (
+                      <a class="site-link" href={p.website} target="_blank" rel="noopener noreferrer">Website</a>
+                    )}
+                    {(p.website && p.hasPost) && <span class="sep">·</span>}
+                    {p.hasPost && (
+                      <a class="read-more" href={`/projects/${p.postSlug}`}>Read More</a>
+                    )}
+                </div>
               </div>
             ))}
           </div>

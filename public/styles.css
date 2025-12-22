@@ -119,6 +119,36 @@ a {
   text-decoration: none;
 }
 
+.card-footer-actions {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+}
+.card-footer-actions .sep {
+  color: var(--muted);
+  font-weight: 600;
+}
+.repo-link,
+.read-more {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.repo-link:hover,
+.read-more:hover {
+  text-decoration: underline;
+}
+
+.site-link {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.site-link:hover {
+  text-decoration: underline;
+}
+
 /* Navigation */
 .html,
 html {

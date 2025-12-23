@@ -91,7 +91,7 @@ projects:
     featured: false
     tech: "Astro, HTML, CSS"
     desc:
-      - "Created this static website using AstroJS to display my resume and additional information."
+      - "Created this static webpage using Astro to display my resume and additional information such as what I learned from some of my projects."
 
 contact:
   email: "ecmcdougald@gmail.com"
